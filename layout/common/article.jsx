@@ -33,6 +33,7 @@ module.exports = class extends Component {
         const updateTime = article && article.update_time !== undefined ? article.update_time : true;
         const isUpdated = page.updated && !moment(page.date).isSame(moment(page.updated));
         const shouldShowUpdated = page.updated && ((updateTime === 'auto' && isUpdated) || updateTime === true);
+        // console.log('Generated URL:', page.path); // 查看生成的具体路径
 
         return <Fragment>
             {/* Main content */}
