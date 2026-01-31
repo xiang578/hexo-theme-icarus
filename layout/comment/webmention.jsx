@@ -11,7 +11,7 @@ class Webmention extends Component {
             <script dangerouslySetInnerHTML={{
                 __html: `var webmentionContext = { baseUrl:'${baseUrl}'}; `}} >
             </script>
-            <script src={helper.url_for('/js/webmention.js')}>
+            <script src={(() => { try { return helper.url_for('/js/webmention.js'); } catch (e) { return '/js/webmention.js'; } })()}>
 
             </script>
 

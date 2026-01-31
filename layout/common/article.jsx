@@ -68,7 +68,12 @@ module.exports = class extends Component {
                                 {(() => {
                                     const categories = [];
                                     page.categories.forEach((category, i) => {
-                                        categories.push(<a class="link-muted" href={url_for(category.path)}>{category.name}</a>);
+                                        try {
+                                            categories.push(<a class="link-muted" href={url_for(category.path)}>{category.name}</a>);
+                                        } catch (e) {
+                                            // Fallback: use path directly if url_for fails
+                                            categories.push(<a class="link-muted" href={'/' + category.path}>{category.name}</a>);
+                                        }
                                         if (i < page.categories.length - 1) {
                                             categories.push(<span>&nbsp;/&nbsp;</span>);
                                         }
@@ -105,7 +110,12 @@ module.exports = class extends Component {
                     {page.tags && page.tags.length ? <div class="article-tags is-size-7 is-uppercase">
                         <i class="fas fa-tags has-text-grey"></i>&nbsp;
                         {page.tags.map((tag, index) => {
-                            return <a class="link-muted p-category" rel="tag" href={url_for(tag.path)}>{tag.name}{index !== page.tags.length-1? ', ':''}</a>;
+                            try {
+                                return <a class="link-muted p-category" rel="tag" href={url_for(tag.path)}>{tag.name}{index !== page.tags.length-1? ', ':''}</a>;
+                            } catch (e) {
+                                // Fallback: use path directly if url_for fails
+                                return <a class="link-muted p-category" rel="tag" href={'/' + tag.path}>{tag.name}{index !== page.tags.length-1? ', ':''}</a>;
+                            }
                         })}
                     </div> : null}
                     {/* "Read more" button */}
@@ -122,13 +132,13 @@ module.exports = class extends Component {
             {/* Post navigation */}
             {!index && (page.prev || page.next) ? <nav class="post-navigation mt-4 level is-mobile">
                 {page.prev ? <div class="level-start">
-                    <a class={`article-nav-prev level level-item${!page.prev ? ' is-hidden-mobile' : ''} link-muted`} href={url_for(page.prev.path)}>
+                    <a class={`article-nav-prev level level-item${!page.prev ? ' is-hidden-mobile' : ''} link-muted`} href={(() => { try { return url_for(page.prev.path); } catch (e) { return '/' + page.prev.path; } })()}>
                         <i class="level-item fas fa-chevron-left"></i>
                         <span class="level-item">{page.prev.title}</span>
                     </a>
                 </div> : null}
                 {page.next ? <div class="level-end">
-                    <a class={`article-nav-next level level-item${!page.next ? ' is-hidden-mobile' : ''} link-muted`} href={url_for(page.next.path)}>
+                    <a class={`article-nav-next level level-item${!page.next ? ' is-hidden-mobile' : ''} link-muted`} href={(() => { try { return url_for(page.next.path); } catch (e) { return '/' + page.next.path; } })()}>
                         <span class="level-item">{page.next.title}</span>
                         <i class="level-item fas fa-chevron-right"></i>
                     </a>
