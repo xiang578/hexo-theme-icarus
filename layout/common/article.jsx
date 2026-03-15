@@ -100,7 +100,12 @@ module.exports = class extends Component {
                     {page.title !== '' && index ? <p class="title is-3 is-size-4-mobile"><a class="link-muted" href={url_for(page.link || page.path)}>{page.title}</a></p> : null}
                     {page.title !== '' && !index ? <h1 class="p-name title is-3 is-size-4-mobile">{page.title}</h1> : null}
                     {/* Content/Excerpt */}
-                    <div class="content  e-content" dangerouslySetInnerHTML={{ __html: index && page.excerpt ? page.excerpt : page.content }}></div>
+                    <div class="content e-content">
+                        <div dangerouslySetInnerHTML={{ __html: index && page.excerpt ? page.excerpt : page.content }}></div>
+                        {/* Webmention */}
+                        {!index ? <Webmention config={config} page={page} helper={helper} /> : null}
+                        {!index ? <WebmentionTimeline config={config} page={page} helper={helper} /> : null}
+                    </div>
                     {/* Licensing block */}
                     {!index && article && article.licenses && Object.keys(article.licenses)
                         ? <ArticleLicensing.Cacheable page={page} config={config} helper={helper} /> : null}
@@ -144,9 +149,6 @@ module.exports = class extends Component {
                     </a>
                 </div> : null}
             </nav> : null}
-            {/* Webmention */}
-            {!index ? <Webmention config={config} page={page} helper={helper}/> :null}
-            {!index ? <WebmentionTimeline config={config} page={page} helper={helper}/>:null}
             {/* Comment */}
             {!index ? <Comment config={config} page={page} helper={helper} /> : null}
         </Fragment>;
