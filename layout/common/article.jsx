@@ -4,7 +4,6 @@ const { toMomentLocale } = require('hexo/dist/plugins/helper/date');
 const Share = require('./share');
 const Donates = require('./donates');
 const Comment = require('./comment');
-const Related = require('./related');
 const Webmention = require('../comment/webmention')
 const WebmentionTimeline = require('../comment/webmention-timeline')
 const ArticleLicensing = require('hexo-component-inferno/lib/view/misc/article_licensing');
@@ -132,8 +131,6 @@ module.exports = class extends Component {
             </div>
             {/* Donate button */}
             {/* {!index ? <Donates config={config} helper={helper} /> : null} */}
-            {/* Related Post*/}
-            {!index ? <Related config={config} page={page} helper={helper}/> :null}
             {/* Post navigation */}
             {!index && (page.prev || page.next) ? <nav class="post-navigation mt-4 level is-mobile">
                 {page.prev ? <div class="level-start">
